@@ -40,7 +40,7 @@ export const TagsInput: FunctionComponent<Props> = ({
               onRemove(tags.length - 1)
             }
           }}
-          placeholder="Add tag"
+          placeholder="copy"
           type="text"
           value={tag}
         />
