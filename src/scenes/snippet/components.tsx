@@ -19,4 +19,8 @@ export const SideBar = styled.aside`
       margin-top: 2em;
     }
   }
+
+  p {
+    color: ${colors.backgroundDarker};
+  }
 `
