@@ -19,10 +19,10 @@
 // variables
 
 $color-background: #fff;
-$color-background-dark: #ecf0f1;
-$color-background-darker: #bdc3c7;
+$color-background-dark: #f6f7f8;
+$color-background-darker: #ecf0f1;
 $color-foreground: #000;
-$color-accent: #ff2d55;
+$color-accent: #59596e;
 
 $line-height: 1.6;
 
@@ -35,12 +35,16 @@ a {
   transition: 0.2s;
 
   &:hover {
-    filter: brightness(1.2);
+    color: lighten($color-accent, 10%);
+  }
+
+  &:active {
+    color: darken($color-accent, 10%);
   }
 }
 
 body {
-  background: $color-background;
+  background: $color-accent;
   color: $color-foreground;
   margin: 0;
   font: normal 1em/1 'Inter var', -apple-system, BlinkMacSystemFont, 'Segoe UI',
@@ -73,23 +77,28 @@ form {
   input,
   textarea {
     appearance: none;
-    background: $color-background;
-    border: 1px solid $color-background-dark;
+    background: $color-background-dark;
+    border: none;
     border-radius: 0.25em;
     font: inherit;
     padding: 1em;
-    transition: 0.3s;
+    transition: 0.2s;
   }
 
   button {
-    background: $color-background-dark;
-    border: none;
+    background: $color-accent;
+    border-radius: 0.25em;
+    color: $color-background;
     cursor: pointer;
     line-height: normal;
     padding: 1em 2em;
 
     &:hover {
-      background: $color-background-darker;
+      filter: brightness(1.2);
+    }
+
+    &:active {
+      filter: brightness(0.8);
     }
   }
 
@@ -98,7 +107,7 @@ form {
     width: 100%;
 
     &:focus {
-      border-color: $color-background-darker;
+      border-color: $color-accent;
     }
   }
 

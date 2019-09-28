@@ -1,17 +1,52 @@
+import 'firebase/auth'
+import 'firebase/firestore'
+
 import './index.scss'
 
-import React from 'react'
+import { StoreProvider } from 'easy-peasy'
+import { auth, initializeApp } from 'firebase/app'
+import React, { FunctionComponent, useEffect, useState } from 'react'
 import ReactDOM from 'react-dom'
 import { BrowserRouter, Route } from 'react-router-dom'
 
-import { Landing } from './scenes'
+import { Spinner, TitleBar } from './components'
+import { config } from './lib/firebase'
+import { Landing, Login, Register, Snippets } from './scenes'
 import * as serviceWorker from './serviceWorker'
+import createStore from './store'
 
-ReactDOM.render(
-  <BrowserRouter>
-    <Route path="/" exact component={Landing} />
-  </BrowserRouter>,
-  document.getElementById('root')
-)
+initializeApp(config())
+
+auth().setPersistence(auth.Auth.Persistence.LOCAL)
+
+const store = createStore()
+
+store.getActions().state.init()
+
+const App: FunctionComponent = () => {
+  const [ready, setReady] = useState(false)
+
+  useEffect(() => {
+    auth().onAuthStateChanged(() => setReady(true))
+  }, [])
+
+  if (!ready) {
+    return <Spinner />
+  }
+
+  return (
+    <StoreProvider store={store}>
+      <BrowserRouter>
+        <TitleBar />
+        <Route path="/" exact component={Landing} />
+        <Route path="/login" component={Login} />
+        <Route path="/register" component={Register} />
+        <Route path="/snippets" component={Snippets} />
+      </BrowserRouter>
+    </StoreProvider>
+  )
+}
+
+ReactDOM.render(<App />, document.getElementById('root'))
 
 serviceWorker.unregister()

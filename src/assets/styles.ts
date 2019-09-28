@@ -1,0 +1,10 @@
+export const colors = {
+  background: '#fff',
+  backgroundDark: '#f6f7f8',
+  backgroundDarker: '#ecf0f1',
+
+  foreground: '#000',
+  foregroundLight: '#666',
+
+  accent: '#59596e'
+}

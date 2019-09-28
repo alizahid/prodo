@@ -1,1 +1,6 @@
-export { default as Landing } from './landing'
+export { Create } from './create'
+export { Landing } from './landing'
+export { Login } from './login'
+export { Register } from './register'
+export { Snippet } from './snippet'
+export { Snippets } from './snippets'
