@@ -4,8 +4,9 @@ import { Main } from './components'
 
 interface Props {
   label: string
+  light?: boolean
 }
 
-export const Button: FunctionComponent<Props> = ({ label }) => {
-  return <Main>{label}</Main>
+export const Button: FunctionComponent<Props> = ({ label, light }) => {
+  return <Main light={light}>{label}</Main>
 }
