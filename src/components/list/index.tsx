@@ -25,7 +25,10 @@ export const List: FunctionComponent<Props> = ({ loading, snippets }) => {
       </Header>
       {loading && <Spinner />}
       {snippets.map(({ id, title }) => (
-        <Link key={id} className={snippetId && 'active'} to={`/snippets/${id}`}>
+        <Link
+          key={id}
+          className={snippetId === id ? 'active' : ''}
+          to={`/snippets/${id}`}>
           {title}
         </Link>
       ))}
