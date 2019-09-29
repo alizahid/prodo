@@ -73,7 +73,7 @@ export const Content = styled.section`
     color: ${colors.background};
     font-size: 0.875em;
     line-height: 1.4;
-    padding: 0.75em 1em;
+    padding: 0.875em 1em;
 
     &:not(:first-child) {
       border-top: 1px solid ${colors.accentDark};
