@@ -4,22 +4,24 @@ import { img_remove } from '../../assets'
 import { colors } from '../../assets/styles'
 
 export const Main = styled.section`
+  align-items: center;
+  background: ${colors.backgroundDark};
+  border-radius: 0.25em;
   display: flex;
   flex-wrap: wrap;
-  margin: -0.5em;
 
   input {
     background: none;
     flex: 1;
     margin: 0.5em;
     min-width: 10em;
-    padding: 0;
+    padding: 0.5em;
   }
 `
 
 export const Tag = styled.article`
   align-items: center;
-  background: ${colors.backgroundDark};
+  background: ${colors.background};
   display: flex;
   border-radius: 0.25em;
   padding: 0.5em;

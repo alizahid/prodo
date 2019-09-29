@@ -26,10 +26,14 @@ export const TagsInput: FunctionComponent<Props> = ({
           </Tag>
         ))}
         <input
-          onChange={event => setTag(event.target.value)}
+          onChange={event =>
+            setTag(event.target.value.replace(/([^\w\d-]+)/, '').toLowerCase())
+          }
           onKeyDown={event => {
             if (event.keyCode === 13) {
-              onAdd(tag)
+              if (tag && !tags.includes(tag)) {
+                onAdd(tag)
+              }
 
               setTag('')
             } else if (
@@ -40,7 +44,7 @@ export const TagsInput: FunctionComponent<Props> = ({
               onRemove(tags.length - 1)
             }
           }}
-          placeholder="copy"
+          placeholder="Label"
           type="text"
           value={tag}
         />
