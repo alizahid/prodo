@@ -2,16 +2,17 @@ import moment from 'moment'
 import React, { FunctionComponent, useEffect, useState } from 'react'
 import { RouteComponentProps } from 'react-router-dom'
 
-import { Button, Form, Spinner } from '../../components'
+import { Form, Spinner } from '../../components'
 import { useStoreActions, useStoreState } from '../../store'
 import { Snippet as SnippetInterface } from '../../store/models/snippets'
-import { Main, SideBar } from './components'
+import { Main } from './components'
 
 interface Props {
   id: string
 }
 
 export const Snippet: FunctionComponent<RouteComponentProps<Props>> = ({
+  history,
   match: {
     params: { id }
   }
@@ -19,7 +20,10 @@ export const Snippet: FunctionComponent<RouteComponentProps<Props>> = ({
   const [snippet, setData] = useState<SnippetInterface>()
 
   const { setSnippet } = useStoreActions(actions => actions.state)
-  const { loading, snippets } = useStoreState(state => state.snippets)
+  const { remove, update } = useStoreActions(actions => actions.snippets)
+  const { loading, removing, saving, snippets } = useStoreState(
+    state => state.snippets
+  )
 
   useEffect(() => {
     const snippet = snippets.find(snippet => snippet.id === id)
@@ -40,18 +44,34 @@ export const Snippet: FunctionComponent<RouteComponentProps<Props>> = ({
 
   return (
     <Main>
-      <Form snippet={snippet} />
-      {snippet && (
-        <SideBar>
-          <p>
-            <Button label="Save" light />
-          </p>
-          <h3>Created</h3>
-          <p>{moment(snippet.createdAt).fromNow()}</p>
-          <h3>Updated</h3>
-          <p>{moment(snippet.updatedAt).fromNow()}</p>
-        </SideBar>
-      )}
+      <Form
+        snippet={snippet}
+        saving={saving}
+        removing={removing}
+        onRemove={async id => {
+          await remove(id)
+
+          history.replace('/snippets')
+        }}
+        onUpdate={(title, content, tags) =>
+          update({
+            id,
+            data: {
+              content,
+              tags,
+              title
+            }
+          })
+        }>
+        {snippet && (
+          <>
+            <h3>Created</h3>
+            <p>{moment(snippet.createdAt).fromNow()}</p>
+            <h3>Updated</h3>
+            <p>{moment(snippet.updatedAt).fromNow()}</p>
+          </>
+        )}
+      </Form>
     </Main>
   )
 }

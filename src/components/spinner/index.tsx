@@ -2,10 +2,15 @@ import React, { FunctionComponent } from 'react'
 
 import { Loading, Main } from './components'
 
-export const Spinner: FunctionComponent = () => {
+interface Props {
+  light?: boolean
+  small?: boolean
+}
+
+export const Spinner: FunctionComponent<Props> = ({ light, small }) => {
   return (
     <Main>
-      <Loading />
+      <Loading light={light} small={small} />
     </Main>
   )
 }

@@ -23,3 +23,22 @@ export const Content = styled.label`
     resize: none;
   }
 `
+
+export const SideBar = styled.aside`
+  color: ${colors.background};
+  min-width: 15em;
+  padding: 1em 2em;
+
+  button {
+    width: 100%;
+  }
+
+  h3 {
+    font-size: 1em;
+    margin-top: 2em;
+  }
+
+  p {
+    color: ${colors.backgroundDarker};
+  }
+`

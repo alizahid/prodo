@@ -9,14 +9,20 @@ export const Main = styled.div`
   justify-content: center;
 `
 
-export const Loading = styled.div`
+interface Props {
+  light?: boolean
+  small?: boolean
+}
+
+export const Loading = styled.div<Props>`
   animation: spinner 1s linear infinite;
   border-radius: 100%;
-  border: 2px solid ${colors.background};
+  border: 2px solid
+    ${props => (props.light ? colors.accent : colors.background)};
   border-top-color: transparent;
-  height: 2em;
-  margin: 2em;
-  width: 2em;
+  height: ${props => (props.small ? '1.25em' : '2em')};
+  margin: ${props => (props.small ? 0 : '2em')};
+  width: ${props => (props.small ? '1.25em' : '2em')};
 
   @keyframes spinner {
     from {
