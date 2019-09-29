@@ -13,7 +13,7 @@ export const confirmDialog = (message: string) => {
 
       resolve(response === 0)
     } else {
-      const ask = window.alert(message)
+      const ask = window.confirm(message)
 
       resolve(ask)
     }
