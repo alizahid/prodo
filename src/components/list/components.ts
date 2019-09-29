@@ -71,8 +71,13 @@ export const Content = styled.section`
 
   a {
     color: ${colors.background};
-    line-height: 1.6;
-    padding: 0.5em 1em;
+    font-size: 0.875em;
+    line-height: 1.4;
+    padding: 0.75em 1em;
+
+    &:not(:first-child) {
+      border-top: 1px solid ${colors.accentDark};
+    }
 
     &.active {
       background: ${colors.background};
