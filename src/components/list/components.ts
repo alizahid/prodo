@@ -30,6 +30,7 @@ export const Header = styled.header`
 
 export const Search = styled.aside`
   align-items: center;
+  background: ${colors.accentDark};
   display: flex;
 
   input {
