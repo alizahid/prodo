@@ -7,6 +7,6 @@ export const colors = {
   foreground: '#000',
   foregroundLight: '#666',
 
-  accent: '#59596e',
-  accentDark: '#4f4f64'
+  accent: '#272c35',
+  accentDark: '#20252c'
 }
