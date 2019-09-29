@@ -2,7 +2,7 @@ import React, { FunctionComponent, useState } from 'react'
 import { Redirect } from 'react-router-dom'
 
 import { Button, Spinner } from '../../components'
-import { openUrl } from '../../lib/electron'
+import { confirmDialog, openUrl } from '../../lib/electron'
 import { useStoreActions, useStoreState } from '../../store'
 import { Content, Footer, Form, Main, SideBar } from './components'
 
@@ -11,7 +11,8 @@ export const Settings: FunctionComponent = () => {
   const [password, setPassword] = useState('')
 
   const { link, logout } = useStoreActions(state => state.state)
-  const { loading, user } = useStoreState(state => state.state)
+  const { snippets } = useStoreState(state => state.snippets)
+  const { loading, loggingOut, user } = useStoreState(state => state.state)
 
   if (!user) {
     return <Redirect to="/" />
@@ -61,14 +62,30 @@ export const Settings: FunctionComponent = () => {
                 />
               </label>
               <p>
-                <button>{loading ? <Spinner small /> : 'Link'}</button>
+                <button>{loading ? <Spinner tiny /> : 'Link'}</button>
               </p>
             </Form>
           </>
         )}
         <Footer>
           <p>
-            <Button label="Logout" loading={loading} onClick={() => logout()} />
+            <Button
+              label="Logout"
+              loading={loggingOut}
+              onClick={async () => {
+                if (user.isAnonymous && snippets.length > 0) {
+                  const yes = await confirmDialog(
+                    `Are you sure you want to logout? You haven't linked your account with an email and password and you'll lose your data once you logout.`
+                  )
+
+                  if (yes) {
+                    logout(true)
+                  }
+                } else {
+                  logout(user.isAnonymous && snippets.length === 0)
+                }
+              }}
+            />
           </p>
         </Footer>
       </Content>

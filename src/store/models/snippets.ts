@@ -1,6 +1,7 @@
 import { Action, Thunk, action, thunk } from 'easy-peasy'
 import { firestore } from 'firebase/app'
 
+import { errorDialog } from '../../lib/electron'
 import { StoreModel } from '.'
 
 export interface Snippet {
@@ -135,6 +136,9 @@ export const snippets: SnippetsModel = {
 
         return snippet.id
       } catch (error) {
+        const { message } = error
+
+        errorDialog(message)
       } finally {
         actions.setSaving(false)
       }
@@ -154,6 +158,9 @@ export const snippets: SnippetsModel = {
           .doc(id)
           .delete()
       } catch (error) {
+        const { message } = error
+
+        errorDialog(message)
       } finally {
         actions.setRemoving(false)
       }
@@ -176,6 +183,9 @@ export const snippets: SnippetsModel = {
             updatedAt: new Date()
           })
       } catch (error) {
+        const { message } = error
+
+        errorDialog(message)
       } finally {
         actions.setSaving(false)
       }

@@ -4,10 +4,11 @@ import { Link, Redirect } from 'react-router-dom'
 import { prodo } from '../../assets'
 import { useStoreActions, useStoreState } from '../../store'
 import { Content, Header, Heading, Logo, Main } from './components'
+import { Spinner } from '../../components'
 
 export const Landing: FunctionComponent = () => {
   const { loginAnonymously } = useStoreActions(actions => actions.state)
-  const { user } = useStoreState(state => state.state)
+  const { loading, user } = useStoreState(state => state.state)
 
   if (user) {
     return <Redirect to="/snippets" />
@@ -21,11 +22,16 @@ export const Landing: FunctionComponent = () => {
       </Header>
       <p>Code and text snippets</p>
       <Content>
-        <Link to="/login">Login</Link>
-        <Link to="/register">Register</Link>
-        <Link to="#" onClick={() => loginAnonymously()}>
-          Later
-        </Link>
+        {loading && <Spinner dark small />}
+        {!loading && (
+          <>
+            <Link to="/login">Login</Link>
+            <Link to="/register">Register</Link>
+            <Link to="#" onClick={() => loginAnonymously()}>
+              Later
+            </Link>
+          </>
+        )}
       </Content>
     </Main>
   )

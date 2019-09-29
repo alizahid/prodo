@@ -6,6 +6,7 @@ import { StoreModel } from '.'
 
 export interface StateModel {
   loading: boolean
+  loggingOut: boolean
   snippetId: string | null
   sideBarOpen: boolean
 
@@ -14,6 +15,7 @@ export interface StateModel {
   init: Thunk<StateModel>
 
   setLoading: Action<StateModel, boolean>
+  setLoggingOut: Action<StateModel, boolean>
   setSnippetId: Action<StateModel, string | null>
   toggleSideBar: Action<StateModel, boolean>
 
@@ -33,7 +35,7 @@ export interface StateModel {
       password: string
     }
   >
-  logout: Thunk<StateModel, any, any, StoreModel>
+  logout: Thunk<StateModel, boolean, any, StoreModel>
   register: Thunk<
     StateModel,
     {
@@ -46,6 +48,7 @@ export interface StateModel {
 
 export const state: StateModel = {
   loading: false,
+  loggingOut: false,
   snippetId: localStorage.getItem('snippetId'),
   sideBarOpen:
     localStorage.getItem('sideBarOpen') === null
@@ -62,6 +65,9 @@ export const state: StateModel = {
 
   setLoading: action((state, loading) => {
     state.loading = loading
+  }),
+  setLoggingOut: action((state, loggingOut) => {
+    state.loggingOut = loggingOut
   }),
   setSnippetId: action((state, id) => {
     state.snippetId = id
@@ -102,9 +108,12 @@ export const state: StateModel = {
     }
   }),
   logout: thunk(
-    async (actions, payload, { getStoreActions, getStoreState }) => {
+    async (actions, deleteAccount, { getStoreActions, getStoreState }) => {
+      actions.setLoggingOut(true)
+
       const {
-        snippets: { unsubscribe }
+        snippets: { unsubscribe },
+        state: { user }
       } = getStoreState()
 
       const {
@@ -119,7 +128,13 @@ export const state: StateModel = {
 
       setData([])
 
-      await auth().signOut()
+      if (deleteAccount && user) {
+        await user.delete()
+      } else {
+        await auth().signOut()
+      }
+
+      actions.setLoggingOut(false)
     }
   ),
   login: thunk(async (actions, { email, password }) => {
@@ -149,6 +164,10 @@ export const state: StateModel = {
     }
   }),
   loginAnonymously: thunk(async actions => {
+    actions.setLoading(true)
+
     await auth().signInAnonymously()
+
+    actions.setLoading(false)
   })
 }
