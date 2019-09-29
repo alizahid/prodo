@@ -117,7 +117,8 @@ export const state: StateModel = {
       } = getStoreState()
 
       const {
-        snippets: { setData, setUnsubscribe }
+        snippets: { setData, setUnsubscribe },
+        state: { setSnippetId }
       } = getStoreActions()
 
       if (unsubscribe) {
@@ -127,6 +128,7 @@ export const state: StateModel = {
       }
 
       setData([])
+      setSnippetId(null)
 
       if (deleteAccount && user) {
         await user.delete()
