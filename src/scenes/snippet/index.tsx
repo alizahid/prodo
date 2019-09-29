@@ -31,8 +31,12 @@ export const Snippet: FunctionComponent<RouteComponentProps<Props>> = ({
     if (snippet) {
       setSnippetId(id)
       setData(snippet)
+    } else {
+      setSnippetId(null)
+
+      history.replace('/snippets')
     }
-  }, [id, snippets, setSnippetId])
+  }, [id, snippets, setSnippetId, history])
 
   if (loading) {
     return <Spinner small />
