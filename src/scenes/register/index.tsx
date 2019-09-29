@@ -1,15 +1,34 @@
 import React, { FunctionComponent, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 
+import { Spinner } from '../../components'
+import { useStoreActions, useStoreState } from '../../store'
 import { Form, Main } from './components'
 
 export const Register: FunctionComponent = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
+  const { register } = useStoreActions(state => state.state)
+  const { loading, user } = useStoreState(state => state.state)
+
+  if (user) {
+    return <Redirect to="/snippets" />
+  }
+
   return (
     <Main>
-      <Form>
+      <Form
+        onSubmit={event => {
+          event.preventDefault()
+
+          if (email && password) {
+            register({
+              email,
+              password
+            })
+          }
+        }}>
         <label>
           <input
             type="email"
@@ -29,7 +48,7 @@ export const Register: FunctionComponent = () => {
           />
         </label>
         <p>
-          <button>Register</button>
+          <button>{loading ? <Spinner small /> : 'Register'}</button>
           <Link to="/login">Login</Link>
         </p>
       </Form>
