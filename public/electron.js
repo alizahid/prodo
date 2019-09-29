@@ -19,6 +19,7 @@ const createWindow = () => {
     width,
     x,
     y,
+    backgroundColor: '#272c35',
     minHeight: 600,
     minWidth: 800,
     show: false,
