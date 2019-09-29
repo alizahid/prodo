@@ -2,7 +2,7 @@ import moment from 'moment'
 import React, { FunctionComponent, useEffect, useState } from 'react'
 import { RouteComponentProps } from 'react-router-dom'
 
-import { Form, Spinner } from '../../components'
+import { Button, Form, Spinner } from '../../components'
 import { useStoreActions, useStoreState } from '../../store'
 import { Snippet as SnippetInterface } from '../../store/models/snippets'
 import { Main, SideBar } from './components'
@@ -43,6 +43,9 @@ export const Snippet: FunctionComponent<RouteComponentProps<Props>> = ({
       <Form snippet={snippet} />
       {snippet && (
         <SideBar>
+          <p>
+            <Button label="Save" light />
+          </p>
           <h3>Created</h3>
           <p>{moment(snippet.createdAt).fromNow()}</p>
           <h3>Updated</h3>

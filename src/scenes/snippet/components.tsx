@@ -12,12 +12,13 @@ export const SideBar = styled.aside`
   min-width: 15em;
   padding: 1em 2em;
 
+  button {
+    width: 100%;
+  }
+
   h3 {
     font-size: 1em;
-
-    &:not(:first-child) {
-      margin-top: 2em;
-    }
+    margin-top: 2em;
   }
 
   p {
