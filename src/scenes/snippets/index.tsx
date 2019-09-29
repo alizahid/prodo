@@ -13,7 +13,7 @@ export const Snippets: FunctionComponent<RouteComponentProps> = ({
 }) => {
   const { fetch } = useStoreActions(actions => actions.snippets)
   const { loading, snippets } = useStoreState(state => state.snippets)
-  const { user } = useStoreState(state => state.state)
+  const { snippetId, user } = useStoreState(state => state.state)
 
   useEffect(() => {
     if (user) {
@@ -23,13 +23,15 @@ export const Snippets: FunctionComponent<RouteComponentProps> = ({
 
   useEffect(() => {
     if (pathname === '/snippets') {
-      if (snippets.length > 0) {
+      if (snippetId) {
+        history.push(`/snippets/${snippetId}`)
+      } else if (snippets.length > 0) {
         history.push(`/snippets/${snippets[0].id}`)
       } else if (!loading) {
         history.push('/snippets/new')
       }
     }
-  }, [loading, snippets, pathname, history])
+  }, [loading, snippetId, snippets, pathname, history])
 
   if (!user) {
     return <Redirect to="/" />

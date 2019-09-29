@@ -5,7 +5,7 @@ import { StoreModel } from '.'
 
 export interface StateModel {
   loading: boolean
-  snippetId?: string
+  snippetId: string | null
   sideBarOpen: boolean
 
   user: firebase.User | null
@@ -13,7 +13,7 @@ export interface StateModel {
   init: Thunk<StateModel>
 
   setLoading: Action<StateModel, boolean>
-  setSnippetId: Action<StateModel, string | undefined>
+  setSnippetId: Action<StateModel, string | null>
   toggleSideBar: Action<StateModel, boolean>
 
   setUser: Action<StateModel, firebase.User | null>
@@ -45,6 +45,7 @@ export interface StateModel {
 
 export const state: StateModel = {
   loading: false,
+  snippetId: localStorage.getItem('snippetId'),
   sideBarOpen:
     localStorage.getItem('sideBarOpen') === null
       ? false
@@ -63,6 +64,12 @@ export const state: StateModel = {
   }),
   setSnippetId: action((state, id) => {
     state.snippetId = id
+
+    if (id) {
+      localStorage.setItem('snippetId', id)
+    } else {
+      localStorage.removeItem('snippetId')
+    }
   }),
   toggleSideBar: action((state, toggle) => {
     state.sideBarOpen = toggle

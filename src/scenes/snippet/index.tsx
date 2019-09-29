@@ -34,7 +34,7 @@ export const Snippet: FunctionComponent<RouteComponentProps<Props>> = ({
     }
 
     return () => {
-      setSnippetId(undefined)
+      setSnippetId(null)
     }
   }, [id, snippets, setSnippetId])
 
