@@ -31,14 +31,15 @@ export const Main = styled.button<Props>`
   cursor: pointer;
   font: inherit;
   line-height: normal;
+  min-width: 10em;
   padding: 1em;
   transition: 0.2s;
 
   &:hover {
-    filter: brightness(1.1);
+    font-weight: 600;
   }
 
   &:active {
-    filter: brightness(0.9);
+    font-weight: bold;
   }
 `

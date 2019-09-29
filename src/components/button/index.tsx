@@ -22,7 +22,7 @@ export const Button: FunctionComponent<Props> = ({
   return (
     <Main ghost={ghost} light={light} onClick={onClick}>
       {!loading && label}
-      {loading && <Spinner light={ghost ? !light : light} small />}
+      {loading && <Spinner light={ghost ? !light : light} tiny />}
     </Main>
   )
 }

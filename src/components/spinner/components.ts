@@ -21,9 +21,9 @@ export const Loading = styled.div<Props>`
   border: 2px solid
     ${props => (props.light ? colors.accent : colors.background)};
   border-top-color: transparent;
-  height: ${props => (props.small ? '1.25em' : '2em')};
-  margin: ${props => (props.small ? (props.tiny ? 0 : '1em') : '2em')};
-  width: ${props => (props.small ? '1.25em' : '2em')};
+  height: ${props => (props.small || props.tiny ? '1.25em' : '2em')};
+  margin: ${props => (props.tiny ? 0 : props.small ? '1em' : '2em')};
+  width: ${props => (props.small || props.tiny ? '1.25em' : '2em')};
 
   @keyframes spinner {
     from {

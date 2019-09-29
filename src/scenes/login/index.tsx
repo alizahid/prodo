@@ -48,7 +48,7 @@ export const Login: FunctionComponent = () => {
           />
         </label>
         <p>
-          <button>{loading ? <Spinner small tiny /> : 'Login'}</button>
+          <button>{loading ? <Spinner tiny /> : 'Login'}</button>
           <Link to="/register">Register</Link>
         </p>
       </Form>
