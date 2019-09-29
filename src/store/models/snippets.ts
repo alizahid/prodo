@@ -74,13 +74,13 @@ export const snippets: SnippetsModel = {
   }),
 
   fetch: thunk(async (actions, payload, { getStoreState }) => {
-    actions.setLoading(true)
-
     const {
       state: { user }
     } = getStoreState()
 
     if (user) {
+      actions.setLoading(true)
+
       firestore()
         .collection('snippets')
         .where('uid', '==', user.uid)
