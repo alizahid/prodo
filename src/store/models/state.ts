@@ -1,6 +1,8 @@
 import { Action, Thunk, action, thunk } from 'easy-peasy'
 import { auth } from 'firebase/app'
 
+import { StoreModel } from '.'
+
 export interface StateModel {
   loading: boolean
   snippetId?: string
@@ -30,7 +32,7 @@ export interface StateModel {
       password: string
     }
   >
-  logout: Thunk<StateModel>
+  logout: Thunk<StateModel, any, any, StoreModel>
   register: Thunk<
     StateModel,
     {
@@ -91,9 +93,25 @@ export const state: StateModel = {
       }
     }
   }),
-  logout: thunk(async actions => {
-    await auth().signOut()
-  }),
+  logout: thunk(
+    async (actions, payload, { getStoreActions, getStoreState }) => {
+      const {
+        snippets: { unsubscribe }
+      } = getStoreState()
+
+      const {
+        snippets: { setData }
+      } = getStoreActions()
+
+      if (unsubscribe) {
+        unsubscribe()
+      }
+
+      setData([])
+
+      await auth().signOut()
+    }
+  ),
   login: thunk(async (actions, { email, password }) => {
     actions.setLoading(true)
 

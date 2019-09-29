@@ -20,6 +20,9 @@ export interface SnippetsModel {
 
   snippets: Snippet[]
 
+  unsubscribe?: any
+  setUnsubscribe: Action<SnippetsModel, () => void>
+
   setLoading: Action<SnippetsModel, boolean>
 
   setRemoving: Action<SnippetsModel, boolean>
@@ -62,6 +65,10 @@ export const snippets: SnippetsModel = {
 
   snippets: [],
 
+  setUnsubscribe: action((state, unsubscribe) => {
+    state.unsubscribe = unsubscribe
+  }),
+
   setLoading: action((state, loading) => {
     state.loading = loading
   }),
@@ -81,7 +88,7 @@ export const snippets: SnippetsModel = {
     if (user) {
       actions.setLoading(true)
 
-      firestore()
+      const unsubscribe = firestore()
         .collection('snippets')
         .where('uid', '==', user.uid)
         .orderBy('updatedAt', 'desc')
@@ -103,6 +110,8 @@ export const snippets: SnippetsModel = {
 
           actions.setData(data)
         })
+
+      actions.setUnsubscribe(unsubscribe)
     }
   }),
   create: thunk(async (actions, payload, { getStoreState }) => {
