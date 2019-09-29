@@ -3,11 +3,15 @@ import { auth } from 'firebase/app'
 
 export interface StateModel {
   snippetId?: string
+  sideBarOpen: boolean
+
   user: firebase.User | null
 
   init: Thunk<StateModel>
 
   setSnippetId: Action<StateModel, string | undefined>
+  toggleSideBar: Action<StateModel, boolean>
+
   setUser: Action<StateModel, firebase.User | null>
 
   login: Thunk<
@@ -28,6 +32,8 @@ export interface StateModel {
 }
 
 export const state: StateModel = {
+  sideBarOpen: true,
+
   user: null,
 
   init: thunk(async actions => {
@@ -39,6 +45,10 @@ export const state: StateModel = {
   setSnippetId: action((state, id) => {
     state.snippetId = id
   }),
+  toggleSideBar: action((state, toggle) => {
+    state.sideBarOpen = toggle
+  }),
+
   setUser: action((state, user) => {
     state.user = user
   }),

@@ -1,9 +1,18 @@
 import React, { FunctionComponent, useEffect, useState } from 'react'
 
+import { img_close_right, img_delete, img_save } from '../../assets'
+import { useStoreActions, useStoreState } from '../../store'
 import { Snippet } from '../../store/models/snippets'
 import { Button } from '../button'
 import { TagsInput } from '../tags-input'
-import { Content, Main, SideBar } from './components'
+import {
+  Content,
+  Main,
+  SideBar,
+  SideBarActions,
+  SideBarContent,
+  SideBarFooter
+} from './components'
 
 interface Props {
   removing?: boolean
@@ -24,6 +33,9 @@ export const Form: FunctionComponent<Props> = ({
   onRemove,
   onUpdate
 }) => {
+  const { sideBarOpen } = useStoreState(state => state.state)
+  const { toggleSideBar } = useStoreActions(actions => actions.state)
+
   const [content, setContent] = useState('')
   const [tags, setTags] = useState<string[]>([])
   const [title, setTitle] = useState('')
@@ -37,6 +49,28 @@ export const Form: FunctionComponent<Props> = ({
       setTitle(title)
     }
   }, [snippet])
+
+  const onSave = () => {
+    if (title) {
+      if (onCreate) {
+        onCreate(title, content, tags)
+      } else if (onUpdate) {
+        onUpdate(title, content, tags)
+      }
+    }
+  }
+
+  const onDelete = () => {
+    if (snippet && onRemove) {
+      const ask = window.confirm(
+        'Are you sure you want to delete this snippet?'
+      )
+
+      if (ask) {
+        onRemove(snippet.id)
+      }
+    }
+  }
 
   return (
     <>
@@ -74,43 +108,45 @@ export const Form: FunctionComponent<Props> = ({
           }}
         />
       </Main>
-      <SideBar>
-        <p>
-          <Button
-            label="Save"
-            light
-            loading={saving}
-            onClick={() => {
-              if (title) {
-                if (onCreate) {
-                  onCreate(title, content, tags)
-                } else if (onUpdate) {
-                  onUpdate(title, content, tags)
-                }
-              }
-            }}
-          />
-        </p>
-        {snippet && (
+      <SideBar visible={!sideBarOpen}>
+        <SideBarContent visible={!sideBarOpen}>
           <p>
-            <Button
-              ghost
-              light
-              label="Delete"
-              loading={removing}
-              onClick={() => {
-                const ask = window.confirm(
-                  'Are you sure you want to delete this snippet?'
-                )
-
-                if (ask && onRemove) {
-                  onRemove(snippet.id)
-                }
-              }}
-            />
+            <Button label="Save" light loading={saving} onClick={onSave} />
           </p>
-        )}
-        {children}
+          {snippet && (
+            <p>
+              <Button
+                ghost
+                label="Delete"
+                light
+                loading={removing}
+                onClick={onDelete}
+              />
+            </p>
+          )}
+          {children}
+        </SideBarContent>
+        <SideBarActions fixed visible={!sideBarOpen}>
+          <button onClick={onSave}>
+            <img src={img_save} alt="Save" title="Save" />
+          </button>
+          {snippet && (
+            <button onClick={onDelete}>
+              <img src={img_delete} alt="Delete" title="Delete" />
+            </button>
+          )}
+        </SideBarActions>
+        <SideBarFooter>
+          <SideBarActions visible>
+            <button onClick={() => toggleSideBar(!sideBarOpen)}>
+              <img
+                className={sideBarOpen ? '' : 'closed'}
+                src={img_close_right}
+                alt="Close"
+              />
+            </button>
+          </SideBarActions>
+        </SideBarFooter>
       </SideBar>
     </>
   )
