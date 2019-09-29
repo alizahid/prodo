@@ -2,12 +2,12 @@ import { Action, Thunk, action, thunk } from 'easy-peasy'
 import { auth } from 'firebase/app'
 
 export interface StateModel {
-  snippet?: string
+  snippetId?: string
   user: firebase.User | null
 
   init: Thunk<StateModel>
 
-  setSnippet: Action<StateModel, string | undefined>
+  setSnippetId: Action<StateModel, string | undefined>
   setUser: Action<StateModel, firebase.User | null>
 
   login: Thunk<
@@ -36,8 +36,8 @@ export const state: StateModel = {
     })
   }),
 
-  setSnippet: action((state, snippet) => {
-    state.snippet = snippet
+  setSnippetId: action((state, id) => {
+    state.snippetId = id
   }),
   setUser: action((state, user) => {
     state.user = user

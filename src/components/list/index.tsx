@@ -13,7 +13,7 @@ interface Props {
 }
 
 export const List: FunctionComponent<Props> = ({ loading, snippets }) => {
-  const { snippet } = useStoreState(state => state.state)
+  const { snippetId } = useStoreState(state => state.state)
 
   return (
     <Main>
@@ -25,7 +25,7 @@ export const List: FunctionComponent<Props> = ({ loading, snippets }) => {
       </Header>
       {loading && <Spinner />}
       {snippets.map(({ id, title }) => (
-        <Link key={id} className={snippet && 'active'} to={`/snippets/${id}`}>
+        <Link key={id} className={snippetId && 'active'} to={`/snippets/${id}`}>
           {title}
         </Link>
       ))}

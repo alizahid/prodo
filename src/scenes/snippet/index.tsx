@@ -19,7 +19,7 @@ export const Snippet: FunctionComponent<RouteComponentProps<Props>> = ({
 }) => {
   const [snippet, setData] = useState<SnippetInterface>()
 
-  const { setSnippet } = useStoreActions(actions => actions.state)
+  const { setSnippetId } = useStoreActions(actions => actions.state)
   const { remove, update } = useStoreActions(actions => actions.snippets)
   const { loading, removing, saving, snippets } = useStoreState(
     state => state.snippets
@@ -29,14 +29,14 @@ export const Snippet: FunctionComponent<RouteComponentProps<Props>> = ({
     const snippet = snippets.find(snippet => snippet.id === id)
 
     if (snippet) {
-      setSnippet(id)
+      setSnippetId(id)
       setData(snippet)
     }
 
     return () => {
-      setSnippet(undefined)
+      setSnippetId(undefined)
     }
-  }, [id, snippets, setSnippet])
+  }, [id, snippets, setSnippetId])
 
   if (loading) {
     return <Spinner />
