@@ -32,7 +32,10 @@ export interface StateModel {
 }
 
 export const state: StateModel = {
-  sideBarOpen: !!localStorage.getItem('sideBarOpen'),
+  sideBarOpen:
+    localStorage.getItem('sideBarOpen') === null
+      ? false
+      : !!localStorage.getItem('sideBarOpen'),
 
   user: null,
 
