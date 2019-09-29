@@ -31,7 +31,7 @@ export const Snippet: FunctionComponent<RouteComponentProps<Props>> = ({
     if (snippet) {
       setSnippetId(id)
       setData(snippet)
-    } else {
+    } else if (!loading) {
       setSnippetId(null)
 
       history.replace('/snippets')
