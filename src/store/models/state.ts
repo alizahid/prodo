@@ -32,7 +32,7 @@ export interface StateModel {
 }
 
 export const state: StateModel = {
-  sideBarOpen: true,
+  sideBarOpen: !!localStorage.getItem('sideBarOpen'),
 
   user: null,
 
@@ -47,6 +47,8 @@ export const state: StateModel = {
   }),
   toggleSideBar: action((state, toggle) => {
     state.sideBarOpen = toggle
+
+    localStorage.setItem('sideBarOpen', toggle ? 'yes' : '')
   }),
 
   setUser: action((state, user) => {
