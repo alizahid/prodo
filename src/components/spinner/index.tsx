@@ -5,12 +5,13 @@ import { Loading, Main } from './components'
 interface Props {
   light?: boolean
   small?: boolean
+  tiny?: boolean
 }
 
-export const Spinner: FunctionComponent<Props> = ({ light, small }) => {
+export const Spinner: FunctionComponent<Props> = ({ light, small, tiny }) => {
   return (
     <Main>
-      <Loading light={light} small={small} />
+      <Loading light={light} small={small} tiny={tiny} />
     </Main>
   )
 }
