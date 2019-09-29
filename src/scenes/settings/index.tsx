@@ -2,6 +2,7 @@ import React, { FunctionComponent, useState } from 'react'
 import { Redirect } from 'react-router-dom'
 
 import { Button, Spinner } from '../../components'
+import { openUrl } from '../../lib/electron'
 import { useStoreActions, useStoreState } from '../../store'
 import { Content, Footer, Form, Main, SideBar } from './components'
 
@@ -79,17 +80,11 @@ export const Settings: FunctionComponent = () => {
           You can read about it on&nbsp;
           <a
             href="https://alizahid.dev/blog/prodo"
-            target="_blank"
             rel="noopener noreferrer"
-            onClick={event => {
-              event.preventDefault()
-
-              if (window.require) {
-                window
-                  .require('electron')
-                  .shell.openExternal('https://alizahid.dev/blog/prodo')
-              }
-            }}>
+            target="_blank"
+            onClick={event =>
+              openUrl('https://alizahid.dev/blog/prodo', event)
+            }>
             my blog
           </a>
           .
@@ -98,17 +93,11 @@ export const Settings: FunctionComponent = () => {
           And you can find the&nbsp;
           <a
             href="https://github.com/alizahid/prodo"
-            target="_blank"
             rel="noopener noreferrer"
-            onClick={event => {
-              event.preventDefault()
-
-              if (window.require) {
-                window
-                  .require('electron')
-                  .shell.openExternal('https://github.com/alizahid/prodo')
-              }
-            }}>
+            target="_blank"
+            onClick={event =>
+              openUrl('https://github.com/alizahid/prodo', event)
+            }>
             source code
           </a>
           &nbsp;on GitHub.

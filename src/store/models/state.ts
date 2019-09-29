@@ -1,6 +1,7 @@
 import { Action, Thunk, action, thunk } from 'easy-peasy'
 import { auth } from 'firebase/app'
 
+import { errorDialog } from '../../lib/electron'
 import { StoreModel } from '.'
 
 export interface StateModel {
@@ -94,7 +95,7 @@ export const state: StateModel = {
       } catch (error) {
         const { message } = error
 
-        window.alert(message)
+        errorDialog(message)
       } finally {
         actions.setLoading(false)
       }
@@ -129,7 +130,7 @@ export const state: StateModel = {
     } catch (error) {
       const { message } = error
 
-      window.alert(message)
+      errorDialog(message)
     } finally {
       actions.setLoading(false)
     }
@@ -142,7 +143,7 @@ export const state: StateModel = {
     } catch (error) {
       const { message } = error
 
-      window.alert(message)
+      errorDialog(message)
     } finally {
       actions.setLoading(false)
     }

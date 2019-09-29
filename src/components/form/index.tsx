@@ -1,6 +1,7 @@
 import React, { FunctionComponent, useEffect, useState } from 'react'
 
 import { img_close_right, img_delete, img_save } from '../../assets'
+import { confirmDialog } from '../../lib/electron'
 import { useStoreActions, useStoreState } from '../../store'
 import { Snippet } from '../../store/models/snippets'
 import { Button } from '../button'
@@ -60,13 +61,13 @@ export const Form: FunctionComponent<Props> = ({
     }
   }
 
-  const onDelete = () => {
+  const onDelete = async () => {
     if (snippet && onRemove) {
-      const ask = window.confirm(
+      const yes = await confirmDialog(
         'Are you sure you want to delete this snippet?'
       )
 
-      if (ask) {
+      if (yes) {
         onRemove(snippet.id)
       }
     }
