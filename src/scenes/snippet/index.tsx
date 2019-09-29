@@ -39,7 +39,7 @@ export const Snippet: FunctionComponent<RouteComponentProps<Props>> = ({
   }, [id, snippets, setSnippetId])
 
   if (loading) {
-    return <Spinner />
+    return <Spinner small />
   }
 
   return (

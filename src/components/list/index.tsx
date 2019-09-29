@@ -51,7 +51,7 @@ export const List: FunctionComponent<Props> = ({ loading, snippets }) => {
         )}
       </Search>
       <Content>
-        {loading && <Spinner />}
+        {loading && <Spinner small />}
         {data.map(({ id, title }) => (
           <Link
             key={id}
