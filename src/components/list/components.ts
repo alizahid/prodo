@@ -28,6 +28,40 @@ export const Header = styled.header`
   }
 `
 
+export const Search = styled.aside`
+  align-items: center;
+  display: flex;
+
+  input {
+    appearance: none;
+    background: none;
+    border: none;
+    color: ${colors.background};
+    font: inherit;
+    padding: 1em;
+    width: 12em;
+
+    &::placeholder {
+      color: ${colors.backgroundDarker};
+    }
+  }
+
+  button {
+    appearance: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font: inherit;
+
+    img {
+      cursor: pointer;
+      height: 1em;
+      margin: 1em;
+      width: 1em;
+    }
+  }
+`
+
 export const Content = styled.section`
   display: flex;
   flex-direction: column;
