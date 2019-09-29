@@ -100,11 +100,13 @@ export const state: StateModel = {
       } = getStoreState()
 
       const {
-        snippets: { setData }
+        snippets: { setData, setUnsubscribe }
       } = getStoreActions()
 
       if (unsubscribe) {
         unsubscribe()
+
+        setUnsubscribe(undefined)
       }
 
       setData([])

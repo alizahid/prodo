@@ -21,7 +21,7 @@ export interface SnippetsModel {
   snippets: Snippet[]
 
   unsubscribe?: any
-  setUnsubscribe: Action<SnippetsModel, () => void>
+  setUnsubscribe: Action<SnippetsModel, (() => void) | undefined>
 
   setLoading: Action<SnippetsModel, boolean>
 
@@ -82,10 +82,11 @@ export const snippets: SnippetsModel = {
 
   fetch: thunk(async (actions, payload, { getStoreState }) => {
     const {
+      snippets: { unsubscribe },
       state: { user }
     } = getStoreState()
 
-    if (user) {
+    if (user && !unsubscribe) {
       actions.setLoading(true)
 
       const unsubscribe = firestore()
