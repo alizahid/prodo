@@ -10,7 +10,7 @@ export const Main = styled.div`
 `
 
 interface Props {
-  light?: boolean
+  dark?: boolean
   small?: boolean
   tiny?: boolean
 }
@@ -18,8 +18,7 @@ interface Props {
 export const Loading = styled.div<Props>`
   animation: spinner 1s linear infinite;
   border-radius: 100%;
-  border: 2px solid
-    ${props => (props.light ? colors.accent : colors.background)};
+  border: 2px solid ${props => (props.dark ? colors.accent : colors.background)};
   border-top-color: transparent;
   height: ${props => (props.small || props.tiny ? '1.25em' : '2em')};
   margin: ${props => (props.tiny ? 0 : props.small ? '1em' : '2em')};
