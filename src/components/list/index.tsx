@@ -5,7 +5,7 @@ import { img_add } from '../../assets'
 import { useStoreState } from '../../store'
 import { Snippet } from '../../store/models/snippets'
 import { Spinner } from '../spinner'
-import { Header, Main } from './components'
+import { Content, Header, Main } from './components'
 
 interface Props {
   loading: boolean
@@ -23,15 +23,17 @@ export const List: FunctionComponent<Props> = ({ loading, snippets }) => {
           <img src={img_add} alt="New" />
         </Link>
       </Header>
-      {loading && <Spinner />}
-      {snippets.map(({ id, title }) => (
-        <Link
-          key={id}
-          className={snippetId === id ? 'active' : ''}
-          to={`/snippets/${id}`}>
-          {title}
-        </Link>
-      ))}
+      <Content>
+        {loading && <Spinner />}
+        {snippets.map(({ id, title }) => (
+          <Link
+            key={id}
+            className={snippetId === id ? 'active' : ''}
+            to={`/snippets/${id}`}>
+            {title}
+          </Link>
+        ))}
+      </Content>
     </Main>
   )
 }

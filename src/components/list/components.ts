@@ -5,17 +5,8 @@ import { colors } from '../../assets/styles'
 export const Main = styled.nav`
   display: flex;
   flex-direction: column;
-  min-width: 15em;
-
-  a {
-    color: ${colors.background};
-    padding: 1em;
-
-    &.active {
-      background: ${colors.background};
-      color: ${colors.foreground};
-    }
-  }
+  width: 15em;
+  height: calc(100vh - 3em);
 `
 
 export const Header = styled.header`
@@ -32,6 +23,25 @@ export const Header = styled.header`
 
   img {
     height: 1em;
+    margin: 1em;
     width: 1em;
+  }
+`
+
+export const Content = styled.section`
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow: auto;
+
+  a {
+    color: ${colors.background};
+    line-height: 1.6;
+    padding: 0.5em 1em;
+
+    &.active {
+      background: ${colors.background};
+      color: ${colors.foreground};
+    }
   }
 `
