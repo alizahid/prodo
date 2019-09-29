@@ -18,7 +18,6 @@ export const TagsInput: FunctionComponent<Props> = ({
 
   return (
     <label>
-      <span>Tags</span>
       <Main>
         {tags.map((tag, index) => (
           <Tag key={tag} onClick={() => onRemove(index)}>
@@ -44,7 +43,7 @@ export const TagsInput: FunctionComponent<Props> = ({
               onRemove(tags.length - 1)
             }
           }}
-          placeholder="Label"
+          placeholder="Tags"
           type="text"
           value={tag}
         />

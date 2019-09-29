@@ -19,7 +19,7 @@ export const Content = styled.label`
   textarea {
     font: normal 1em/1.6 'IBM Plex Mono', source-code-pro, Menlo, Monaco,
       Consolas, 'Courier New', monospace;
-    height: calc(100% - 2em);
+    height: 100%;
     resize: none;
   }
 `

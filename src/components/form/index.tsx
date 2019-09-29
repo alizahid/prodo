@@ -76,21 +76,19 @@ export const Form: FunctionComponent<Props> = ({
     <>
       <Main>
         <label>
-          <span>Title</span>
           <input
             onChange={event => setTitle(event.target.value)}
-            placeholder="Copy excluding node_modules"
+            placeholder="Title"
             type="text"
             value={title}
           />
         </label>
         <Content>
-          <span>Content</span>
           <textarea
             autoCapitalize="never"
             autoCorrect="never"
             onChange={event => setContent(event.target.value)}
-            placeholder="rsync -r --exclude 'node_modules' source target"
+            placeholder="Content"
             value={content}
           />
         </Content>
