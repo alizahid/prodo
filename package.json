@@ -1,13 +1,21 @@
 {
   "name": "prodo",
+  "description": "Snippets manager",
+  "version": "0.0.0",
   "private": true,
+  "license": "MIT",
+  "homepage": "./",
   "main": "public/electron.js",
+  "author": {
+    "name": "Ali Zahid",
+    "email": "ali.zahid@live.com",
+    "url": "https://alizahid.dev"
+  },
   "scripts": {
-    "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "electron-dev": "concurrently 'BROWSER=none yarn start' 'wait-on http://localhost:3000 && electron .'"
+    "dev": "concurrently 'BROWSER=none yarn start' 'wait-on http://localhost:3000 && electron .'",
+    "dist": "yarn build; electron-builder",
+    "start": "react-scripts start"
   },
   "dependencies": {
     "crypto-js": "^3.1.9-1",
@@ -62,6 +70,14 @@
   "husky": {
     "hooks": {
       "pre-commit": "pretty-quick --staged"
+    }
+  },
+  "build": {
+    "appId": "com.designplox.prodo",
+    "productName": "Prodo",
+    "copyright": "Copyright © 2020 Ali Zahid",
+    "directories": {
+      "buildResources": "public"
     }
   }
 }
