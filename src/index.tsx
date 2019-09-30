@@ -11,7 +11,14 @@ import { BrowserRouter, Route } from 'react-router-dom'
 
 import { Spinner, TitleBar } from './components'
 import { config } from './lib/firebase'
-import { Landing, Login, Register, Settings, Snippets } from './scenes'
+import {
+  Landing,
+  Login,
+  Register,
+  ResetPassword,
+  Settings,
+  Snippets
+} from './scenes'
 import * as serviceWorker from './serviceWorker'
 import createStore from './store'
 
@@ -41,6 +48,7 @@ const App: FunctionComponent = () => {
         <Route path="/" exact component={Landing} />
         <Route path="/login" component={Login} />
         <Route path="/register" component={Register} />
+        <Route path="/reset-password" component={ResetPassword} />
         <Route path="/snippets" component={Snippets} />
         <Route path="/settings" component={Settings} />
       </BrowserRouter>

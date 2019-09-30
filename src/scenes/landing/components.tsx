@@ -42,11 +42,17 @@ export const Content = styled.section`
     border-radius: 0.25em;
     color: ${colors.background};
     padding: 1em;
-    margin-left: 2em;
 
-    &:last-child {
+    &:not(:first-child) {
+      margin-left: 2em;
+    }
+  }
+
+  &:last-child {
+    a {
       background: none;
       color: ${colors.accent};
+      padding: 0;
     }
   }
 `

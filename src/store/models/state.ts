@@ -62,6 +62,7 @@ export interface StateModel {
     any,
     StoreModel
   >
+  resetPassword: Thunk<StateModel, string>
 }
 
 export const state: StateModel = {
@@ -250,5 +251,20 @@ export const state: StateModel = {
         }
       }
     }
-  )
+  ),
+  resetPassword: thunk(async (actions, email) => {
+    actions.setLoading(true)
+
+    try {
+      await auth().sendPasswordResetEmail(email)
+
+      alertDialog('Email sent.')
+    } catch (error) {
+      const { message } = error
+
+      errorDialog(message)
+    } finally {
+      actions.setLoading(false)
+    }
+  })
 }

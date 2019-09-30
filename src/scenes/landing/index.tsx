@@ -20,19 +20,22 @@ export const Landing: FunctionComponent = () => {
         <Logo src={prodo} alt="Prodo" />
         <Heading>Prodo</Heading>
       </Header>
-      <p>Code and text snippets</p>
-      <Content>
-        {loading && <Spinner dark small />}
-        {!loading && (
-          <>
+      <p>Snippets manager</p>
+      {loading && <Spinner dark small />}
+      {!loading && (
+        <>
+          <Content>
             <Link to="/login">Login</Link>
             <Link to="/register">Register</Link>
+          </Content>
+          <Content>
+            <Link to="/reset-password">Forgot password?</Link>
             <Link to="#" onClick={() => loginAnonymously()}>
               Later
             </Link>
-          </>
-        )}
-      </Content>
+          </Content>
+        </>
+      )}
     </Main>
   )
 }
