@@ -25,13 +25,11 @@ export const Snippets: FunctionComponent<RouteComponentProps> = ({
     if (pathname === '/snippets') {
       if (snippetId) {
         history.push(`/snippets/${snippetId}`)
-      } else if (snippets.length > 0) {
-        history.push(`/snippets/${snippets[0].id}`)
-      } else if (!loading) {
+      } else {
         history.push('/snippets/new')
       }
     }
-  }, [loading, snippetId, snippets, pathname, history])
+  }, [snippetId, pathname, history])
 
   if (!user) {
     return <Redirect to="/" />

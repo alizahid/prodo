@@ -34,7 +34,7 @@ export const Snippet: FunctionComponent<RouteComponentProps<Props>> = ({
     } else if (!loading) {
       setSnippetId(null)
 
-      history.replace('/snippets')
+      history.replace('/snippets/new')
     }
   }, [id, loading, snippets, setSnippetId, history])
 
