@@ -3,7 +3,7 @@ import { auth } from 'firebase/app'
 import nanoid from 'nanoid'
 
 import { alertDialog, errorDialog } from '../../lib/electron'
-import { storage } from '../../lib/storage'
+import storage from '../../lib/storage'
 import { StoreModel } from '.'
 
 export interface StateModel {
@@ -66,23 +66,14 @@ export interface StateModel {
 }
 
 export const state: StateModel = {
-  get key() {
-    try {
-      return storage.get('key')
-    } catch (error) {
-      return ''
-    }
-  },
+  key: storage.get('key', ''),
 
   loading: false,
   loggingOut: false,
   updatingPassword: false,
 
-  snippetId: localStorage.getItem('snippetId'),
-  sideBarOpen:
-    localStorage.getItem('sideBarOpen') === null
-      ? false
-      : !!localStorage.getItem('sideBarOpen'),
+  snippetId: storage.get('snippetId', null),
+  sideBarOpen: storage.get('sideBarOpen', false),
 
   user: null,
 
@@ -118,15 +109,15 @@ export const state: StateModel = {
     state.snippetId = id
 
     if (id) {
-      localStorage.setItem('snippetId', id)
+      storage.set('snippetId', id)
     } else {
-      localStorage.removeItem('snippetId')
+      storage.remove('snippetId')
     }
   }),
   toggleSideBar: action((state, toggle) => {
     state.sideBarOpen = toggle
 
-    localStorage.setItem('sideBarOpen', toggle ? 'yes' : '')
+    storage.set('sideBarOpen', toggle)
   }),
 
   setUser: action((state, user) => {
@@ -181,7 +172,7 @@ export const state: StateModel = {
         await auth().signOut()
       }
 
-      storage.remove('key')
+      storage.clear()
 
       actions.setLoggingOut(false)
     }
