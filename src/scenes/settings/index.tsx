@@ -79,10 +79,10 @@ export const Settings: FunctionComponent = () => {
         <Form className="key" onSubmit={event => event.preventDefault()}>
           <label>
             <input
-              type="text"
               placeholder="Encryption key"
-              value={key}
               readOnly
+              type="text"
+              value={key}
             />
           </label>
           <p>Please keep a copy of your encryption key.</p>
