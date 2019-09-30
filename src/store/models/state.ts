@@ -3,8 +3,12 @@ import { auth } from 'firebase/app'
 
 import { errorDialog } from '../../lib/electron'
 import { StoreModel } from '.'
+import { storage } from '../../lib/storage'
+import nanoid from 'nanoid'
 
 export interface StateModel {
+  key: string
+
   loading: boolean
   loggingOut: boolean
   snippetId: string | null
@@ -12,8 +16,9 @@ export interface StateModel {
 
   user: firebase.User | null
 
-  init: Thunk<StateModel>
+  init: Thunk<StateModel, any, any, StoreModel>
 
+  setKey: Action<StateModel, string>
   setLoading: Action<StateModel, boolean>
   setLoggingOut: Action<StateModel, boolean>
   setSnippetId: Action<StateModel, string | null>
@@ -33,6 +38,7 @@ export interface StateModel {
     {
       email: string
       password: string
+      key: string
     }
   >
   logout: Thunk<StateModel, boolean, any, StoreModel>
@@ -47,6 +53,14 @@ export interface StateModel {
 }
 
 export const state: StateModel = {
+  get key() {
+    try {
+      return storage.get('key')
+    } catch (error) {
+      return ''
+    }
+  },
+
   loading: false,
   loggingOut: false,
   snippetId: localStorage.getItem('snippetId'),
@@ -57,12 +71,23 @@ export const state: StateModel = {
 
   user: null,
 
-  init: thunk(async actions => {
+  init: thunk(async (actions, params, { getState }) => {
+    const { key } = getState()
+
+    if (key) {
+      storage.set('key', key)
+    }
+
     auth().onAuthStateChanged(user => {
       actions.setUser(user)
     })
   }),
 
+  setKey: action((state, key) => {
+    storage.set('key', key)
+
+    state.key = key
+  }),
   setLoading: action((state, loading) => {
     state.loading = loading
   }),
@@ -136,14 +161,18 @@ export const state: StateModel = {
         await auth().signOut()
       }
 
+      storage.remove('key')
+
       actions.setLoggingOut(false)
     }
   ),
-  login: thunk(async (actions, { email, password }) => {
+  login: thunk(async (actions, { email, password, key }) => {
     actions.setLoading(true)
 
     try {
       await auth().signInWithEmailAndPassword(email, password)
+
+      actions.setKey(key)
     } catch (error) {
       const { message } = error
 
@@ -157,6 +186,8 @@ export const state: StateModel = {
 
     try {
       await auth().createUserWithEmailAndPassword(email, password)
+
+      actions.setKey(nanoid())
     } catch (error) {
       const { message } = error
 
@@ -169,6 +200,8 @@ export const state: StateModel = {
     actions.setLoading(true)
 
     await auth().signInAnonymously()
+
+    actions.setKey(nanoid())
 
     actions.setLoading(false)
   })

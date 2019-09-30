@@ -8,6 +8,7 @@ import { Form, Main } from './components'
 export const Login: FunctionComponent = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [key, setKey] = useState('')
 
   const { login } = useStoreActions(state => state.state)
   const { loading, user } = useStoreState(state => state.state)
@@ -22,10 +23,11 @@ export const Login: FunctionComponent = () => {
         onSubmit={event => {
           event.preventDefault()
 
-          if (email && password) {
+          if (email && password && key) {
             login({
               email,
-              password
+              password,
+              key
             })
           }
         }}>
@@ -45,6 +47,15 @@ export const Login: FunctionComponent = () => {
             required
             value={password}
             onChange={event => setPassword(event.target.value)}
+          />
+        </label>
+        <label>
+          <input
+            type="password"
+            placeholder="Encryption key"
+            required
+            value={key}
+            onChange={event => setKey(event.target.value)}
           />
         </label>
         <p>

@@ -1,6 +1,7 @@
 import { Action, Thunk, action, thunk } from 'easy-peasy'
 import { firestore } from 'firebase/app'
 
+import { decrypt, encrypt } from '../../lib/crypto'
 import { errorDialog } from '../../lib/electron'
 import { StoreModel } from '.'
 
@@ -84,7 +85,7 @@ export const snippets: SnippetsModel = {
   fetch: thunk(async (actions, payload, { getStoreState }) => {
     const {
       snippets: { unsubscribe },
-      state: { user }
+      state: { key, user }
     } = getStoreState()
 
     if (user && !unsubscribe) {
@@ -102,9 +103,9 @@ export const snippets: SnippetsModel = {
 
             return {
               id,
-              content,
-              tags,
-              title,
+              content: decrypt(content, key),
+              tags: decrypt(tags, key).split(','),
+              title: decrypt(title, key),
               createdAt: createdAt.toDate(),
               updatedAt: updatedAt.toDate()
             }
@@ -116,34 +117,38 @@ export const snippets: SnippetsModel = {
       actions.setUnsubscribe(unsubscribe)
     }
   }),
-  create: thunk(async (actions, payload, { getStoreState }) => {
-    const {
-      state: { user }
-    } = getStoreState()
+  create: thunk(
+    async (actions, { content, tags, title }, { getStoreState }) => {
+      const {
+        state: { key, user }
+      } = getStoreState()
 
-    if (user) {
-      actions.setSaving(true)
+      if (user) {
+        actions.setSaving(true)
 
-      try {
-        const snippet = await firestore()
-          .collection('snippets')
-          .add({
-            ...payload,
-            createdAt: new Date(),
-            updatedAt: new Date(),
-            uid: user.uid
-          })
+        try {
+          const snippet = await firestore()
+            .collection('snippets')
+            .add({
+              content: encrypt(content, key),
+              tags: encrypt(tags.join(','), key),
+              title: encrypt(title, key),
+              uid: user.uid,
+              createdAt: new Date(),
+              updatedAt: new Date()
+            })
 
-        return snippet.id
-      } catch (error) {
-        const { message } = error
+          return snippet.id
+        } catch (error) {
+          const { message } = error
 
-        errorDialog(message)
-      } finally {
-        actions.setSaving(false)
+          errorDialog(message)
+        } finally {
+          actions.setSaving(false)
+        }
       }
     }
-  }),
+  ),
   remove: thunk(async (actions, id, { getStoreState }) => {
     const {
       state: { user }
@@ -166,31 +171,39 @@ export const snippets: SnippetsModel = {
       }
     }
   }),
-  update: thunk(async (actions, { id, data }, { getStoreState }) => {
-    const {
-      state: { user }
-    } = getStoreState()
+  update: thunk(
+    async (
+      actions,
+      { id, data: { content, tags, title } },
+      { getStoreState }
+    ) => {
+      const {
+        state: { key, user }
+      } = getStoreState()
 
-    if (user) {
-      actions.setSaving(true)
+      if (user) {
+        actions.setSaving(true)
 
-      try {
-        await firestore()
-          .collection('snippets')
-          .doc(id)
-          .update({
-            ...data,
-            updatedAt: new Date()
-          })
-      } catch (error) {
-        const { message } = error
+        try {
+          await firestore()
+            .collection('snippets')
+            .doc(id)
+            .update({
+              content: encrypt(content, key),
+              tags: encrypt(tags.join(','), key),
+              title: encrypt(title, key),
+              updatedAt: new Date()
+            })
+        } catch (error) {
+          const { message } = error
 
-        errorDialog(message)
-      } finally {
-        actions.setSaving(false)
+          errorDialog(message)
+        } finally {
+          actions.setSaving(false)
+        }
       }
     }
-  }),
+  ),
 
   setData: action((state, snippets) => {
     state.loading = false

@@ -12,7 +12,7 @@ export const Settings: FunctionComponent = () => {
 
   const { link, logout } = useStoreActions(state => state.state)
   const { snippets } = useStoreState(state => state.snippets)
-  const { loading, loggingOut, user } = useStoreState(state => state.state)
+  const { key, loading, loggingOut, user } = useStoreState(state => state.state)
 
   if (!user) {
     return <Redirect to="/" />
@@ -28,10 +28,7 @@ export const Settings: FunctionComponent = () => {
         </p>
         {user.isAnonymous && (
           <>
-            <p>
-              Link your account so you can access your snippets from other
-              places.
-            </p>
+            <h3>Link account</h3>
             <Form
               onSubmit={event => {
                 event.preventDefault()
@@ -43,6 +40,10 @@ export const Settings: FunctionComponent = () => {
                   })
                 }
               }}>
+              <p>
+                Link your account so you can access your snippets from other
+                places.
+              </p>
               <label>
                 <input
                   type="email"
@@ -67,27 +68,19 @@ export const Settings: FunctionComponent = () => {
             </Form>
           </>
         )}
-        <Footer>
-          <p>
-            <Button
-              label="Logout"
-              loading={loggingOut}
-              onClick={async () => {
-                if (user.isAnonymous && snippets.length > 0) {
-                  const yes = await confirmDialog(
-                    `Are you sure you want to logout? You haven't linked your account with an email and password and you'll lose your data once you logout.`
-                  )
-
-                  if (yes) {
-                    logout(true)
-                  }
-                } else {
-                  logout(user.isAnonymous && snippets.length === 0)
-                }
-              }}
+        <h3>Encryption key</h3>
+        <Form className="key" onSubmit={event => event.preventDefault()}>
+          <label>
+            <input
+              type="text"
+              placeholder="Encryption key"
+              value={key}
+              readOnly
             />
-          </p>
-        </Footer>
+          </label>
+          <p>Please keep a copy of your encryption key.</p>
+          <p>If you lose this, you won't be able to access your data.</p>
+        </Form>
       </Content>
       <SideBar>
         <h2>Prodo</h2>
@@ -119,6 +112,29 @@ export const Settings: FunctionComponent = () => {
           </a>
           &nbsp;on GitHub.
         </p>
+        <Footer>
+          <p>
+            <Button
+              ghost
+              label="Logout"
+              light
+              loading={loggingOut}
+              onClick={async () => {
+                if (user.isAnonymous && snippets.length > 0) {
+                  const yes = await confirmDialog(
+                    `Are you sure you want to logout? You haven't linked your account with an email and password and you'll lose your data once you logout.`
+                  )
+
+                  if (yes) {
+                    logout(true)
+                  }
+                } else {
+                  logout(user.isAnonymous && snippets.length === 0)
+                }
+              }}
+            />
+          </p>
+        </Footer>
       </SideBar>
     </Main>
   )

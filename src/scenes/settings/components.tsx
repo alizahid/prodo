@@ -10,22 +10,32 @@ export const Main = styled.main`
 export const Content = styled.section`
   background: ${colors.background};
   border-top-right-radius: 0.5em;
-  display: flex;
-  flex-direction: column;
   flex: 1;
+  height: calc(100vh - 3em);
+  overflow: auto;
   padding: 1em 2em;
+
+  h3 {
+    margin: 2em 0 0;
+  }
 `
 
 export const Form = styled.form`
-  max-width: 15em;
-`
+  input {
+    max-width: 15em;
+  }
 
-export const Footer = styled.footer`
-  margin-top: auto;
+  &.key {
+    input {
+      max-width: 20em;
+    }
+  }
 `
 
 export const SideBar = styled.aside`
   color: ${colors.background};
+  display: flex;
+  flex-direction: column;
   padding: 1em 2em;
   width: 20em;
 
@@ -39,5 +49,13 @@ export const SideBar = styled.aside`
     &:hover {
       color: ${colors.backgroundDark};
     }
+  }
+`
+
+export const Footer = styled.footer`
+  margin-top: auto;
+
+  button {
+    width: 100%;
   }
 `
