@@ -51,7 +51,7 @@ export const Snippet: FunctionComponent<RouteComponentProps<Props>> = ({
         onRemove={async id => {
           await remove(id)
 
-          history.replace('/snippets')
+          history.replace('/snippets/new')
         }}
         onUpdate={(title, content, tags) =>
           update({
