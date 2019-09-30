@@ -9,10 +9,14 @@ import { Content, Footer, Form, Main, SideBar } from './components'
 export const Settings: FunctionComponent = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [currentPassword, setCurrentPassword] = useState('')
+  const [newPassword, setNewPassword] = useState('')
 
-  const { link, logout } = useStoreActions(state => state.state)
+  const { link, logout, updatePassword } = useStoreActions(state => state.state)
   const { snippets } = useStoreState(state => state.snippets)
-  const { key, loading, loggingOut, user } = useStoreState(state => state.state)
+  const { key, loading, loggingOut, updatingPassword, user } = useStoreState(
+    state => state.state
+  )
 
   if (!user) {
     return <Redirect to="/" />
@@ -38,6 +42,9 @@ export const Settings: FunctionComponent = () => {
                     email,
                     password
                   })
+
+                  setEmail('')
+                  setPassword('')
                 }
               }}>
               <p>
@@ -46,20 +53,20 @@ export const Settings: FunctionComponent = () => {
               </p>
               <label>
                 <input
-                  type="email"
+                  onChange={event => setEmail(event.target.value)}
                   placeholder="Email"
                   required
+                  type="email"
                   value={email}
-                  onChange={event => setEmail(event.target.value)}
                 />
               </label>
               <label>
                 <input
-                  type="password"
+                  onChange={event => setPassword(event.target.value)}
                   placeholder="Password"
                   required
+                  type="password"
                   value={password}
-                  onChange={event => setPassword(event.target.value)}
                 />
               </label>
               <p>
@@ -81,6 +88,45 @@ export const Settings: FunctionComponent = () => {
           <p>Please keep a copy of your encryption key.</p>
           <p>If you lose this, you won't be able to access your data.</p>
         </Form>
+        {!user.isAnonymous && (
+          <>
+            <h3>Change password</h3>
+            <Form
+              onSubmit={event => {
+                event.preventDefault()
+
+                if (currentPassword && newPassword) {
+                  updatePassword({
+                    currentPassword,
+                    newPassword
+                  })
+
+                  setCurrentPassword('')
+                  setNewPassword('')
+                }
+              }}>
+              <label>
+                <input
+                  onChange={event => setCurrentPassword(event.target.value)}
+                  placeholder="Password"
+                  type="password"
+                  value={currentPassword}
+                />
+              </label>
+              <label>
+                <input
+                  onChange={event => setNewPassword(event.target.value)}
+                  placeholder="New password"
+                  type="password"
+                  value={newPassword}
+                />
+              </label>
+              <p>
+                <button>{updatingPassword ? <Spinner tiny /> : 'Save'}</button>
+              </p>
+            </Form>
+          </>
+        )}
       </Content>
       <SideBar>
         <h2>Prodo</h2>

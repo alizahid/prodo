@@ -16,7 +16,7 @@ export const Content = styled.section`
   padding: 1em 2em;
 
   h3 {
-    margin: 2em 0 0;
+    margin: 2em 0 0.5em;
   }
 `
 

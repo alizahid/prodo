@@ -1,18 +1,20 @@
 import { Action, Thunk, action, thunk } from 'easy-peasy'
 import { auth } from 'firebase/app'
-
-import { errorDialog } from '../../lib/electron'
-import { StoreModel } from '.'
-import { storage } from '../../lib/storage'
 import nanoid from 'nanoid'
+
+import { alertDialog, errorDialog } from '../../lib/electron'
+import { storage } from '../../lib/storage'
+import { StoreModel } from '.'
 
 export interface StateModel {
   key: string
 
   loading: boolean
   loggingOut: boolean
-  snippetId: string | null
+  updatingPassword: boolean
+
   sideBarOpen: boolean
+  snippetId: string | null
 
   user: firebase.User | null
 
@@ -22,6 +24,7 @@ export interface StateModel {
   setLoading: Action<StateModel, boolean>
   setLoggingOut: Action<StateModel, boolean>
   setSnippetId: Action<StateModel, string | null>
+  setUpdatingPassword: Action<StateModel, boolean>
   toggleSideBar: Action<StateModel, boolean>
 
   setUser: Action<StateModel, firebase.User | null>
@@ -50,6 +53,15 @@ export interface StateModel {
     }
   >
   loginAnonymously: Thunk<StateModel>
+  updatePassword: Thunk<
+    StateModel,
+    {
+      currentPassword: string
+      newPassword: string
+    },
+    any,
+    StoreModel
+  >
 }
 
 export const state: StateModel = {
@@ -63,6 +75,8 @@ export const state: StateModel = {
 
   loading: false,
   loggingOut: false,
+  updatingPassword: false,
+
   snippetId: localStorage.getItem('snippetId'),
   sideBarOpen:
     localStorage.getItem('sideBarOpen') === null
@@ -88,12 +102,17 @@ export const state: StateModel = {
 
     state.key = key
   }),
+
   setLoading: action((state, loading) => {
     state.loading = loading
   }),
   setLoggingOut: action((state, loggingOut) => {
     state.loggingOut = loggingOut
   }),
+  setUpdatingPassword: action((state, updatingPassword) => {
+    state.updatingPassword = updatingPassword
+  }),
+
   setSnippetId: action((state, id) => {
     state.snippetId = id
 
@@ -204,5 +223,32 @@ export const state: StateModel = {
     actions.setKey(nanoid())
 
     actions.setLoading(false)
-  })
+  }),
+  updatePassword: thunk(
+    async (actions, { currentPassword, newPassword }, { getState }) => {
+      const { user } = getState()
+
+      if (user && user.email) {
+        actions.setUpdatingPassword(true)
+
+        try {
+          const credential = auth.EmailAuthProvider.credential(
+            user.email,
+            currentPassword
+          )
+
+          await user.reauthenticateWithCredential(credential)
+          await user.updatePassword(newPassword)
+
+          alertDialog('Password updated.')
+        } catch (error) {
+          const { message } = error
+
+          errorDialog(message)
+        } finally {
+          actions.setUpdatingPassword(false)
+        }
+      }
+    }
+  )
 }

@@ -2,6 +2,17 @@ import { MouseEvent } from 'react'
 
 const electron = window.require ? window.require('electron') : null
 
+export const alertDialog = (message: string) => {
+  if (electron) {
+    electron.remote.dialog.showMessageBox({
+      message,
+      type: 'info'
+    })
+  } else {
+    window.alert(message)
+  }
+}
+
 export const confirmDialog = (message: string) => {
   return new Promise(async resolve => {
     if (electron) {
