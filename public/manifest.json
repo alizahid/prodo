@@ -1,10 +1,10 @@
 {
-  "name": "Snippets",
-  "short_name": "Snippets",
+  "name": "Prodo",
+  "short_name": "Prodo",
   "background_color": "#ffffff",
   "display": "standalone",
   "start_url": ".",
-  "theme_color": "#000000",
+  "theme_color": "#272c35",
   "icons": [
     {
       "sizes": "64x64 32x32 24x24 16x16",
