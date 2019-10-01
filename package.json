@@ -32,8 +32,7 @@
     "react-router-dom": "^5.1.1",
     "react-scripts": "3.1.2",
     "secure-ls": "^1.2.5",
-    "styled-components": "^4.4.0",
-    "typescript": "3.6.3"
+    "styled-components": "^4.4.0"
   },
   "devDependencies": {
     "@types/crypto-js": "^3.1.43",
@@ -50,6 +49,7 @@
     "husky": "^3.0.7",
     "prettier": "^1.18.2",
     "pretty-quick": "^1.11.1",
+    "typescript": "^3.6.3",
     "wait-on": "^3.3.0"
   },
   "eslintConfig": {
