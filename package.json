@@ -13,6 +13,7 @@
   },
   "scripts": {
     "build": "react-scripts build",
+    "build:render": "sed -i '/homepage/d' package.json ; yarn build",
     "dev": "concurrently 'BROWSER=none yarn start' 'wait-on http://localhost:3000 && electron .'",
     "dist": "yarn build; electron-builder",
     "start": "react-scripts start"
