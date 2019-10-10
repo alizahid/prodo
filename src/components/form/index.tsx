@@ -1,19 +1,10 @@
 import React, { FunctionComponent, useEffect, useState } from 'react'
 
-import { img_close_right, img_delete, img_save } from '../../assets'
+import { img_delete, img_save } from '../../assets'
 import { confirmDialog } from '../../lib/electron'
-import { useStoreActions, useStoreState } from '../../store'
 import { Snippet } from '../../store/models/snippets'
-import { Button } from '../button'
 import { TagsInput } from '../tags-input'
-import {
-  Content,
-  Main,
-  SideBar,
-  SideBarActions,
-  SideBarContent,
-  SideBarFooter
-} from './components'
+import { Content, Main, SideBar, SideBarActions } from './components'
 
 interface Props {
   removing?: boolean
@@ -34,9 +25,6 @@ export const Form: FunctionComponent<Props> = ({
   onRemove,
   onUpdate
 }) => {
-  const { sideBarOpen } = useStoreState(state => state.state)
-  const { toggleSideBar } = useStoreActions(actions => actions.state)
-
   const [content, setContent] = useState('')
   const [tags, setTags] = useState<string[]>([])
   const [title, setTitle] = useState('')
@@ -107,25 +95,8 @@ export const Form: FunctionComponent<Props> = ({
           }}
         />
       </Main>
-      <SideBar visible={!sideBarOpen}>
-        <SideBarContent visible={!sideBarOpen}>
-          <p>
-            <Button label="Save" light loading={saving} onClick={onSave} />
-          </p>
-          {snippet && (
-            <p>
-              <Button
-                ghost
-                label="Delete"
-                light
-                loading={removing}
-                onClick={onDelete}
-              />
-            </p>
-          )}
-          {children}
-        </SideBarContent>
-        <SideBarActions fixed visible={!sideBarOpen}>
+      <SideBar>
+        <SideBarActions>
           <button onClick={onSave}>
             <img src={img_save} alt="Save" title="Save" />
           </button>
@@ -135,17 +106,6 @@ export const Form: FunctionComponent<Props> = ({
             </button>
           )}
         </SideBarActions>
-        <SideBarFooter>
-          <SideBarActions visible>
-            <button onClick={() => toggleSideBar(!sideBarOpen)}>
-              <img
-                className={sideBarOpen ? '' : 'closed'}
-                src={img_close_right}
-                alt="Close"
-              />
-            </button>
-          </SideBarActions>
-        </SideBarFooter>
       </SideBar>
     </>
   )

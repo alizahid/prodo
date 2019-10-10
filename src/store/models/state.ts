@@ -13,7 +13,6 @@ export interface StateModel {
   loggingOut: boolean
   updatingPassword: boolean
 
-  sideBarOpen: boolean
   snippetId: string | null
 
   user: firebase.User | null
@@ -25,7 +24,6 @@ export interface StateModel {
   setLoggingOut: Action<StateModel, boolean>
   setSnippetId: Action<StateModel, string | null>
   setUpdatingPassword: Action<StateModel, boolean>
-  toggleSideBar: Action<StateModel, boolean>
 
   setUser: Action<StateModel, firebase.User | null>
 
@@ -73,7 +71,6 @@ export const state: StateModel = {
   updatingPassword: false,
 
   snippetId: storage.get('snippetId', null),
-  sideBarOpen: storage.get('sideBarOpen', false),
 
   user: null,
 
@@ -113,11 +110,6 @@ export const state: StateModel = {
     } else {
       storage.remove('snippetId')
     }
-  }),
-  toggleSideBar: action((state, toggle) => {
-    state.sideBarOpen = toggle
-
-    storage.set('sideBarOpen', toggle)
   }),
 
   setUser: action((state, user) => {
