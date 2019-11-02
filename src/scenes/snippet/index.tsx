@@ -62,16 +62,8 @@ export const Snippet: FunctionComponent<RouteComponentProps<Props>> = ({
               title
             }
           })
-        }>
-        {snippet && (
-          <>
-            <h3>Created</h3>
-            <p>{moment(snippet.createdAt).fromNow()}</p>
-            <h3>Updated</h3>
-            <p>{moment(snippet.updatedAt).fromNow()}</p>
-          </>
-        )}
-      </Form>
+        }
+      />
     </Main>
   )
 }

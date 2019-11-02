@@ -17,7 +17,6 @@ interface Props {
 }
 
 export const Form: FunctionComponent<Props> = ({
-  children,
   snippet,
   removing,
   saving,
