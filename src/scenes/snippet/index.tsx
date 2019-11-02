@@ -1,4 +1,3 @@
-import moment from 'moment'
 import React, { FunctionComponent, useEffect, useState } from 'react'
 import { RouteComponentProps } from 'react-router-dom'
 
